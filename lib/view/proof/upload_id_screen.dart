@@ -64,7 +64,7 @@ class _UploadIdScreenState extends State<UploadIdScreen> {
                         height: 38,
                       ),
                       Text(
-                        "Selfie with ID Card",
+                        "Selfie con documento de identidad",
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.w800,
                               fontSize: 24,
@@ -74,7 +74,7 @@ class _UploadIdScreenState extends State<UploadIdScreen> {
                         height: 4,
                       ),
                       Text(
-                        "Please look at the camera and hold still",
+                        "Por favor, mire a la cámara y permanezca quieto.",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -139,7 +139,7 @@ class _UploadIdScreenState extends State<UploadIdScreen> {
                     },
                     child: customButton(
                         HexColor(AppTheme.primaryColorString!),
-                        "Submit selfie",
+                        "enviar selfie",
                         HexColor(AppTheme.secondaryColorString!),
                         context),
                   ),
@@ -157,7 +157,7 @@ class _UploadIdScreenState extends State<UploadIdScreen> {
                         AppTheme.isLightTheme == false
                             ? const Color(0xff52525C)
                             : const Color(0xffF5F7FE),
-                        "Retake selfie",
+                        "Retomarse la selfie",
                         AppTheme.isLightTheme == false
                             ? Colors.white
                             : HexColor(AppTheme.primaryColorString!),

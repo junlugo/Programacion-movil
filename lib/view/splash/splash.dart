@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 48, right: 48, bottom: 20),
               child: Text(
-                "FinPay is a financial platform to manage your business and money.",
+                "FinPay es una plataforma financiera para administrar su negocio y su dinero.",
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.w500,

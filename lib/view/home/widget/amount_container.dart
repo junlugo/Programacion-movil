@@ -18,7 +18,7 @@ Widget amountContainer(BuildContext context, String? amount) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Amount (USD)",
+          "Monto (USD)",
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,

@@ -52,7 +52,7 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                     height: 38,
                   ),
                   Text(
-                    "Photo ID Card",
+                    "Tarjeta de identificación con foto",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w800,
                         fontSize: 24,
@@ -62,7 +62,7 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                     height: 4,
                   ),
                   Text(
-                    "Position all 4 corners of the page clearly",
+                    "Coloque claramente las 4 esquinas de la página",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,

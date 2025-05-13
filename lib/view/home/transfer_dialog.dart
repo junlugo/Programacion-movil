@@ -39,7 +39,7 @@ Widget transferDialog(BuildContext context) {
                   ),
                 ),
                 Text(
-                  "Confirm",
+                  "Confirmar",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
@@ -66,7 +66,7 @@ Widget transferDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Recipient",
+                  "Beneficiario",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -88,7 +88,7 @@ Widget transferDialog(BuildContext context) {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "Philip",
+                      "Junior Lugo",
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -111,7 +111,7 @@ Widget transferDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Transfer to",
+                  "Transferir a",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -126,7 +126,7 @@ Widget transferDialog(BuildContext context) {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      "Wise",
+                      "Juan Ibarra",
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -158,14 +158,14 @@ Widget transferDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Transfer Amount",
+                  "Monto de la transferencia",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xffA2A0A8)),
                 ),
                 Text(
-                  "\$75.00",
+                  "\$755.000",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -203,7 +203,7 @@ Widget transferDialog(BuildContext context) {
             ),
             const SizedBox(height: 20),
             CustomButton(
-              title: "Continue",
+              title: "Continuar",
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushReplacement(

@@ -37,14 +37,14 @@ class HomeView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Good morning",
+                      "Buenos días",
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).textTheme.bodySmall!.color,
                           ),
                     ),
                     Text(
-                      "Good morning",
+                      "Buenos días",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w700,
                             fontSize: 24,
@@ -68,7 +68,7 @@ class HomeView extends StatelessWidget {
                             DefaultImages.ranking,
                           ),
                           Text(
-                            "Gold",
+                            "Oro",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -149,7 +149,7 @@ class HomeView extends StatelessWidget {
                             size: 20,
                           ),
                           Text(
-                            "Add Currency",
+                            "Agregar moneda",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -202,7 +202,7 @@ class HomeView extends StatelessWidget {
                       },
                       child: circleCard(
                         image: DefaultImages.topup,
-                        title: "Top-up",
+                        title: "Recarga",
                       ),
                     ),
                     InkWell(
@@ -213,7 +213,7 @@ class HomeView extends StatelessWidget {
                       onTap: () {},
                       child: circleCard(
                         image: DefaultImages.withdraw,
-                        title: "Withdraw",
+                        title: "Retirar",
                       ),
                     ),
                     InkWell(
@@ -228,7 +228,7 @@ class HomeView extends StatelessWidget {
                       },
                       child: circleCard(
                         image: DefaultImages.transfer,
-                        title: "Transfer",
+                        title: "Transferir",
                       ),
                     )
                   ],
@@ -259,7 +259,7 @@ class HomeView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Transactions",
+                                "Transacciones",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
@@ -269,7 +269,7 @@ class HomeView extends StatelessWidget {
                                     ),
                               ),
                               Text(
-                                "See all",
+                                "Ver todo",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
