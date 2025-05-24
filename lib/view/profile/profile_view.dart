@@ -96,7 +96,7 @@ class ProfileView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Junior Lugo",
+                              "Daniel Travis",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -118,7 +118,7 @@ class ProfileView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Miembro Oro ",
+                                    "Member Gold ",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -144,7 +144,7 @@ class ProfileView extends StatelessWidget {
                                 duration: const Duration(milliseconds: 500));
                           },
                           child: Text(
-                            "Editar perfil",
+                            "Edit Profile",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -159,7 +159,7 @@ class ProfileView extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                     Text(
-                      "Descripción general",
+                      "Overview",
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -170,14 +170,14 @@ class ProfileView extends StatelessWidget {
                       children: [
                         incomeContainer(
                           context,
-                          "Ingresos netos",
+                          "Net Income",
                           "\$4,500",
                           DefaultImages.income,
                         ),
                         const SizedBox(width: 16),
                         incomeContainer(
                           context,
-                          "Gastos",
+                          "Expense",
                           "\$1,691",
                           DefaultImages.outcome,
                         )
@@ -201,7 +201,7 @@ class ProfileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Pasa esta semana",
+                              "Spend this week",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -249,7 +249,7 @@ class ProfileView extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              "\$124 queda para gastar",
+                              "\$124 left to spend",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -287,7 +287,7 @@ class ProfileView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       child: Text(
-                        "Te uniste a Finpay en septiembre de 2021. Ha pasado un mes desde entonces y nuestra misión sigue siendo la misma: ayudarte a administrar mejor tus finanzas..",
+                        "You joined Finpay on September 2021. It’s been 1 month since then and our mission is still the same, help you better manage your finance.",
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,

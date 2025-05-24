@@ -53,7 +53,7 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                     height: 28,
                   ),
                   Text(
-                    "Comprobante de residencia",
+                    "Proof of residency",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
@@ -63,7 +63,7 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                     height: 4,
                   ),
                   Text(
-                    "Demuestre que vive en Paraguay",
+                    "Prove you live in Indonesia",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
@@ -78,7 +78,7 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                           height: 20,
                         ),
                         Text(
-                          "Nacionalidad",
+                          "Nationality",
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.w700,
@@ -126,7 +126,7 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Paraguay",
+                                            "Indonesian",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium!
@@ -152,7 +152,7 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                                   onTap: () {},
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 16.0),
-                                    child: Text("Cambiar",
+                                    child: Text("Change",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -169,7 +169,7 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          "Método de verificación",
+                          "Method of verification",
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.w700,
@@ -182,8 +182,8 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                         ),
                         customMethodContainer(
                             context,
-                            "Pasaporte",
-                            "Expedido en Paraguay",
+                            "Passport",
+                            "Issued in Indonesia",
                             DefaultImages.passport,
                             () {}),
                         const SizedBox(
@@ -191,8 +191,8 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                         ),
                         customMethodContainer(
                             context,
-                            "Carnet de identidad",
-                            "Expedido en Paraguay",
+                            "Identity Card",
+                            "Issued in Indonesia",
                             DefaultImages.identityCard,
                             () {}),
                         const SizedBox(
@@ -200,8 +200,8 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                         ),
                         customMethodContainer(
                             context,
-                            "Mi documento digital de información",
-                            "Expedido en Paraguay",
+                            "My info digital document",
+                            "Issued in Indonesia",
                             DefaultImages.digitalDoc,
                             () {}),
                         const SizedBox(
@@ -220,7 +220,7 @@ class _RedsidencyProofScreenState extends State<RedsidencyProofScreen> {
                     },
                     child: customButton(
                         HexColor(AppTheme.primaryColorString!),
-                        "Continuar",
+                        "Continue",
                         HexColor(AppTheme.secondaryColorString!),
                         context),
                   ),

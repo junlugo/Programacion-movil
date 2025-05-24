@@ -71,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 10,
                   ),
                   Text(
-                    "Empezando",
+                    "Getting Started",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
@@ -81,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 4,
                   ),
                   Text(
-                    "Crea una cuenta para continuar!",
+                    "Create an account to continue!",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
@@ -111,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   // color:  HexColor(AppTheme.secondaryColorString!)
                                 ),
                               ),
-                              hintText: "Nombre completo",
+                              hintText: "Full Name",
                               inputType: TextInputType.text,
                               textEditingController:
                                   signUpController.nameController.value,
@@ -134,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   // color:  HexColor(AppTheme.secondaryColorString!)
                                 ),
                               ),
-                              hintText: "Número de teléfono",
+                              hintText: "Phone Number",
                               inputType: TextInputType.phone,
                               textEditingController:
                                   signUpController.mobileController.value,
@@ -175,7 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     // color:  HexColor(AppTheme.secondaryColorString!)
                                   ),
                                 ),
-                                hintText: "Contraseña",
+                                hintText: "Password",
                                 obscure:
                                     signUpController.isVisible.value == true
                                         ? false
@@ -235,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   text: TextSpan(children: <TextSpan>[
                                     TextSpan(
                                       text:
-                                          "Al crear una cuenta, usted acepta nuestros ",
+                                          "By creating an account, you aggree to our ",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -249,7 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                     ),
                                     TextSpan(
-                                        text: "Términos",
+                                        text: "Terms",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -259,7 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 color: HexColor(AppTheme
                                                     .primaryColorString!))),
                                     TextSpan(
-                                      text: " y ",
+                                      text: " and ",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -273,7 +273,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                     ),
                                     TextSpan(
-                                        text: "Condiciones",
+                                        text: "Conditions",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -314,7 +314,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               },
                               child: customButton(
                                   HexColor(AppTheme.primaryColorString!),
-                                  "Inscribirse",
+                                  "Sign Up",
                                   HexColor(AppTheme.secondaryColorString!),
                                   context),
                             ),
@@ -335,7 +335,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("Ya tienes una cuenta? ",
+                                    Text("Already have an account? ",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -344,7 +344,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 fontSize: 16,
                                                 color:
                                                     const Color(0xff9CA3AF))),
-                                    Text(" Acceso",
+                                    Text(" Login",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -372,7 +372,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             const Padding(
                               padding: EdgeInsets.only(left: 16.0, right: 16),
-                              child: Text("O continuar con"),
+                              child: Text("Or Continue with"),
                             ),
                             Expanded(
                               child: Container(
@@ -411,7 +411,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   splashColor: Colors.transparent,
                                   onTap: () {},
                                   child: Text(
-                                    "Continuar con Google",
+                                    "Continue with Google",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!

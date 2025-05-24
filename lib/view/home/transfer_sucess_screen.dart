@@ -37,7 +37,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
           ),
         ),
         title: Text(
-          "Transferencia exitosa",
+          "Transfer Success",
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -120,7 +120,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "750.000",
+                                    "75.00",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -137,7 +137,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Beneficiario",
+                                    "Recipient",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -162,7 +162,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        "Junior",
+                                        "Philip",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge!
@@ -189,7 +189,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Transferir a",
+                                    "Transfer to",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -207,7 +207,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        "Claudio",
+                                        "Wise",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge!
@@ -246,7 +246,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Monto de la transferencia",
+                                    "Transfer Amount",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -256,7 +256,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                             color: const Color(0xffA2A0A8)),
                                   ),
                                   Text(
-                                    "\$750.000",
+                                    "\$75.00",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -288,7 +288,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                                           const Duration(milliseconds: 500));
                                 },
                                 child: Text(
-                                  "Historial de Transacciones",
+                                  "History Transactions",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
@@ -340,7 +340,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  "Imprimir",
+                                  "Print",
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge!
@@ -374,7 +374,7 @@ class _TransferSucessScreenState extends State<TransferSucessScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  "Hecho",
+                                  "Done",
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge!

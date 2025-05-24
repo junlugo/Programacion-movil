@@ -43,7 +43,7 @@ class _TransactionHistoryDetailScreenState
           ),
         ),
         title: Text(
-          "Detalles",
+          "Details",
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -88,7 +88,7 @@ class _TransactionHistoryDetailScreenState
                   const SizedBox(height: 32),
                   Center(
                     child: Text(
-                      "Cantidad (USD)",
+                      "Amount (USD)",
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -103,7 +103,7 @@ class _TransactionHistoryDetailScreenState
                   const SizedBox(height: 16),
                   Center(
                     child: Text(
-                      "- \$22,000,900",
+                      "- \$120.90",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontSize: 48,
                             fontWeight: FontWeight.w800,
@@ -121,7 +121,7 @@ class _TransactionHistoryDetailScreenState
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    "Pago con",
+                    "Payment with",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -157,7 +157,7 @@ class _TransactionHistoryDetailScreenState
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Tarjeta Finpay",
+                                  "Finpay Card",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
@@ -187,7 +187,7 @@ class _TransactionHistoryDetailScreenState
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    "Ubicación",
+                    "Location",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -195,7 +195,7 @@ class _TransactionHistoryDetailScreenState
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Manuel ortiz guerrero / Federico smith",
+                    "767 Fifth Avenue New York, NY 10153",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,

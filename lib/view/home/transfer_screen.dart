@@ -58,8 +58,8 @@ class _TransferScreenState extends State<TransferScreen> {
                     const Expanded(child: SizedBox()),
                     Text(
                       homeController.isAdd.value == false
-                          ? "Transferir"
-                          : "Detalle de transferencia",
+                          ? "Transfer"
+                          : "Transfer Detail",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Colors.white,
                             fontSize: 20,
@@ -102,7 +102,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                 ? Column(
                                     children: [
                                       Text(
-                                        "¿A dónde quieres transferir??",
+                                        "Where do you want to\ntransfer?",
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge!
@@ -152,7 +152,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                                   )),
                                               const SizedBox(width: 14),
                                               Text(
-                                                "Seleccionar banco",
+                                                "Select Bank",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .titleLarge!
@@ -187,7 +187,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Transferir a",
+                                            "Transfer to",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleLarge!
@@ -197,7 +197,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                                 ),
                                           ),
                                           Text(
-                                            "Ver todo",
+                                            "See all",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleLarge!
@@ -239,7 +239,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                                     ),
                                                     const SizedBox(height: 5),
                                                     Text(
-                                                      "Agregar",
+                                                      "Add",
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .titleLarge!
@@ -283,12 +283,12 @@ class _TransferScreenState extends State<TransferScreen> {
                                                             height: 5),
                                                         Text(
                                                           index == 0
-                                                              ? "Junior"
+                                                              ? "Philip"
                                                               : index == 1
-                                                                  ? "Juan"
+                                                                  ? "Brandon"
                                                                   : index == 2
-                                                                      ? "Claudio"
-                                                                      : "Areco",
+                                                                      ? "Julia"
+                                                                      : "Dianne",
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
@@ -321,7 +321,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                       ),
                                       const SizedBox(height: 16),
                                       Text(
-                                        "Junior",
+                                        "Phillip",
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge!
@@ -371,7 +371,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Juan",
+                                                    "Wise",
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .titleLarge!
@@ -427,7 +427,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                     : 0),
                             homeController.isAdd.value == true
                                 ? CardTextField(
-                                    hintText: "Agregar nota",
+                                    hintText: "Add Note",
                                     color: AppTheme.isLightTheme == false
                                         ? const Color(0xff211F32)
                                         : const Color(0xffFAFAFA),
@@ -454,7 +454,7 @@ class _TransferScreenState extends State<TransferScreen> {
                     bottom: MediaQuery.of(context).padding.bottom + 14,
                   ),
                   child: CustomButton(
-                    title: "Continuar",
+                    title: "Continue",
                     onTap: () {
                       setState(() {
                         homeController.isAdd.value = true;
@@ -511,7 +511,7 @@ class _TransferScreenState extends State<TransferScreen> {
                           ),
                           const Expanded(child: SizedBox()),
                           Text(
-                            "Deslizar para transferir",
+                            "Swipe to transfer",
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 16,

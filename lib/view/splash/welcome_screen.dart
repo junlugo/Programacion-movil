@@ -43,8 +43,8 @@ class _WelcomeFirstScreenState extends State<WelcomeFirstScreen> {
                 children: [
                   Text(
                     slideController.i.value == 0
-                        ? "Bienvenido a  FinPay"
-                        : "Presupuesto",
+                        ? "Welcome to FinPay"
+                        : "Budgeting",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
@@ -89,7 +89,7 @@ class _WelcomeFirstScreenState extends State<WelcomeFirstScreen> {
                         ? SizedBox(
                             height: 130,
                             child: Text(
-                              "Administrar tu dinero está a punto de mejorar mucho.",
+                              "Managing your money is about to get a lot better.",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -102,7 +102,7 @@ class _WelcomeFirstScreenState extends State<WelcomeFirstScreen> {
                         : SizedBox(
                             height: 130,
                             child: Text(
-                              "Gasta de forma más inteligente cada día, todo desde una sola aplicación. ",
+                              "Spend smarter every day, all from one app. ",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -179,7 +179,7 @@ class _WelcomeFirstScreenState extends State<WelcomeFirstScreen> {
                   Get.offAll(const LoginScreen());
                 },
                 child: customButton(HexColor(AppTheme.primaryColorString!),
-                    "Acceso", HexColor(AppTheme.secondaryColorString!), context),
+                    "Login", HexColor(AppTheme.secondaryColorString!), context),
               ),
               const SizedBox(
                 height: 16,
@@ -196,7 +196,7 @@ class _WelcomeFirstScreenState extends State<WelcomeFirstScreen> {
                     AppTheme.isLightTheme == false
                         ? const Color(0xff52525C)
                         : const Color(0xffF5F7FE),
-                    "Crear una cuenta",
+                    "Create an account",
                     AppTheme.isLightTheme == false
                         ? Colors.white
                         : HexColor(AppTheme.primaryColorString!),

@@ -38,7 +38,7 @@ class _TopUpSucessScreenState extends State<TopUpSucessScreen> {
                   ),
                   const SizedBox(height: 30),
                   Text(
-                    "Recarga exitosa",
+                    "Top Up Success",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
@@ -55,7 +55,7 @@ class _TopUpSucessScreenState extends State<TopUpSucessScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        "\$11.000.000",
+                        "\$500.00",
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
@@ -65,7 +65,7 @@ class _TopUpSucessScreenState extends State<TopUpSucessScreen> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    "Se ha añadido al saldo de su tarjeta Finpay\n",
+                    "Has been added to your Finpay\nCard Balance",
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -83,7 +83,7 @@ class _TopUpSucessScreenState extends State<TopUpSucessScreen> {
                 bottom: MediaQuery.of(context).padding.bottom + 14,
               ),
               child: CustomButton(
-                title: "Hecho",
+                title: "Done",
                 onTap: () {
                   Navigator.pop(context);
                 },

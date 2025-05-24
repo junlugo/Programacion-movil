@@ -48,7 +48,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
           ),
         ),
         title: Text(
-          "Historial",
+          "History",
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -70,7 +70,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
               child: Column(children: [
                 const SizedBox(height: 16),
                 CustomTextField(
-                  hintText: "Buscar",
+                  hintText: "Search",
                   widget: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: SvgPicture.asset(
@@ -105,7 +105,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                               padding:
                                   const EdgeInsets.only(left: 16, right: 16),
                               child: Text(
-                                "Hoy",
+                                "Today",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
@@ -178,7 +178,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "Ahorre más dinero hasta un 50% usando su",
+                                        "Save more money up to 50% using your",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
@@ -195,7 +195,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                         child: Row(
                                           children: [
                                             Text(
-                                              "Tarjeta de débito Finpay.",
+                                              "Finpay debit card.",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall!
@@ -207,7 +207,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                                   ),
                                             ),
                                             Text(
-                                              " Más información",
+                                              " Learn more",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall!
@@ -236,7 +236,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                     padding: const EdgeInsets.only(
                                         left: 16, right: 16),
                                     child: Text(
-                                      "Últimos 7 días",
+                                      "Last 7 Day",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!

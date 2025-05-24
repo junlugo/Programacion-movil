@@ -39,7 +39,7 @@ Widget topupDialog(BuildContext context) {
                   ),
                 ),
                 Text(
-                  "Confirmar",
+                  "Confirm",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
@@ -66,7 +66,7 @@ Widget topupDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Método",
+                  "Method",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -106,14 +106,14 @@ Widget topupDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Monto de recarga",
+                  "Top-up Amount",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xffA2A0A8)),
                 ),
                 Text(
-                  "\$1500.00",
+                  "\$500.00",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -151,7 +151,7 @@ Widget topupDialog(BuildContext context) {
             ),
             const SizedBox(height: 25),
             CustomButton(
-              title: "Continuar",
+              title: "Continue",
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushReplacement(

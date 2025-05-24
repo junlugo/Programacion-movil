@@ -50,7 +50,7 @@ class _SelectReasonScreenState extends State<SelectReasonScreen> {
                     height: 38,
                   ),
                   Text(
-                    "Razón principal para utilizar FinPay",
+                    "Main reason for using FinPay",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
@@ -60,7 +60,7 @@ class _SelectReasonScreenState extends State<SelectReasonScreen> {
                     height: 4,
                   ),
                   Text(
-                    "Necesitamos conocer estas razones regulatorias. Y también tenemos curiosidad.!",
+                    "We need to know this regulatory reasons. And also, we’re curious!",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
@@ -70,7 +70,7 @@ class _SelectReasonScreenState extends State<SelectReasonScreen> {
                   const SizedBox(
                     height: 32,
                   ),
-                  customReasonContainer(context, "Gastar o ahorrar diariamente", () {
+                  customReasonContainer(context, "Spend or save daily", () {
                     Get.to(
                       const CreateNewPinScreen(),
                       transition: Transition.rightToLeft,
@@ -80,7 +80,7 @@ class _SelectReasonScreenState extends State<SelectReasonScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  customReasonContainer(context, "Gastar mientras viaja", () {
+                  customReasonContainer(context, "Spend while travelling", () {
                     Get.to(
                       const CreateNewPinScreen(),
                       transition: Transition.rightToLeft,
@@ -90,7 +90,7 @@ class _SelectReasonScreenState extends State<SelectReasonScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  customReasonContainer(context, "Enviar dinero", () {
+                  customReasonContainer(context, "Send money", () {
                     Get.to(
                       const CreateNewPinScreen(),
                       transition: Transition.rightToLeft,
@@ -101,7 +101,7 @@ class _SelectReasonScreenState extends State<SelectReasonScreen> {
                     height: 24,
                   ),
                   customReasonContainer(
-                      context, "Obtenga exposición a activos financieros", () {
+                      context, "Gain exposure to financial assets", () {
                     Get.to(
                       const CreateNewPinScreen(),
                       transition: Transition.rightToLeft,
