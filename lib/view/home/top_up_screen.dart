@@ -1,267 +1,288 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:finpay/config/images.dart';
 import 'package:finpay/config/textstyle.dart';
-import 'package:finpay/view/home/topup_dialog.dart';
-import 'package:finpay/view/home/widget/amount_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:swipe/swipe.dart';
 
 class TopUpSCreen extends StatefulWidget {
   const TopUpSCreen({Key? key}) : super(key: key);
-
   @override
   State<TopUpSCreen> createState() => _TopUpSCreenState();
 }
 
 class _TopUpSCreenState extends State<TopUpSCreen> {
+  // Variables para control de selección
+  int selectedParkingIndex = 0;
+  String selectedPaymentMethod = 'QR';
+
+  // Opciones de estacionamiento con monto en guaraníes
+  final List<Map<String, dynamic>> parkingOptions = [
+    {'name': 'Piso N° 1 - Nl 1', 'duration': '4 horas', 'amount': 40000},
+    {'name': 'Piso N° 2 - Nl 2', 'duration': '5 horas', 'amount': 50000},
+    {'name': 'Piso N° 3 - Nl 3', 'duration': '3 hora', 'amount': 30000},
+  ];
+
+  // Métodos de pago disponibles
+  final List<String> paymentMethods = ['QR', 'Transferencia', 'Tarjeta'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.isLightTheme == false
           ? HexColor('#15141f')
           : HexColor(AppTheme.primaryColorString!),
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
-                child: Row(
-                  children: [
-                    InkWell(
-                      focusColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Expanded(child: SizedBox()),
-                    Text(
-                      "Top Up",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
-                          ),
-                    ),
-                    const Expanded(child: SizedBox()),
-                    const Icon(
-                      Icons.arrow_back,
-                      color: Colors.transparent,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Container(
-                  height: Get.height - 107,
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                    color: AppTheme.isLightTheme == false
-                        ? const Color(0xff211F32)
-                        : Theme.of(context).appBarTheme.backgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
-                    ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Parte superior fija
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
-                  child: ListView(
-                    physics: const ClampingScrollPhysics(),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 50),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 30),
-                            Container(
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffF5F7FE),
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: SvgPicture.asset(
-                                  DefaultImages.unicorn,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              "Finpay Card",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "••••   ••••   ••••   5318",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xffA2A0A8),
-                                  ),
-                            ),
-                            const SizedBox(height: 40),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: amountContainer(context, "500"),
-                            ),
-                            const SizedBox(height: 24),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: Container(
-                                height: 64,
-                                width: Get.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
-                                  color: AppTheme.isLightTheme == false
-                                      ? const Color(0xff323045)
-                                      : Colors.transparent,
-                                  border: Border.all(
-                                    color:
-                                        HexColor(AppTheme.primaryColorString!)
-                                            .withOpacity(0.05),
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 16, right: 16),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        DefaultImages.mastercard,
-                                      ),
-                                      const SizedBox(width: 15),
-                                      Text(
-                                        "Debit",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      const Expanded(child: SizedBox()),
-                                      Text(
-                                        "\$7,124",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Icon(
-                                        Icons.keyboard_arrow_down_outlined,
-                                        color: Color(0xffA2A0A8),
-                                        size: 30,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
+                  const Spacer(),
+                  Text(
+                    "Reserva de Estacionamiento",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
+                  ),
+                  const Spacer(),
+                  const SizedBox(width: 24), // Para balancear el icono atrás
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Opciones de estacionamiento
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                itemCount: parkingOptions.length,
+                itemBuilder: (context, index) {
+                  final option = parkingOptions[index];
+                  final isSelected = selectedParkingIndex == index;
+
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedParkingIndex = index;
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? HexColor(AppTheme.primaryColorString!)
+                            : (AppTheme.isLightTheme == false ? const Color(0xff323045) : Colors.grey[100]),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: isSelected
+                              ? HexColor(AppTheme.primaryColorString!)
+                              : Colors.transparent,
+                          width: 2,
                         ),
                       ),
-                      const SizedBox(height: 50),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom,
-            ),
-            child: Swipe(
-              onSwipeRight: () {
-                Get.bottomSheet(
-                  topupDialog(context),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 20, bottom: 20),
-                child: Container(
-                  height: 56,
-                  width: Get.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: AppTheme.isLightTheme == false
-                        ? HexColor(AppTheme.primaryColorString!)
-                        : HexColor(AppTheme.primaryColorString!)
-                            .withOpacity(0.05),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          height: 48,
-                          width: 48,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppTheme.isLightTheme == false
-                                ? Colors.white
-                                : HexColor(AppTheme.primaryColorString!),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset(
-                              DefaultImages.swipe,
-                              color: AppTheme.isLightTheme == false
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 56,
+                            width: 56,
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? Colors.white
+                                  : HexColor(AppTheme.primaryColorString!),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(
+                              Icons.local_parking,
+                              color: isSelected
                                   ? HexColor(AppTheme.primaryColorString!)
                                   : Colors.white,
+                              size: 32,
                             ),
                           ),
-                        ),
-                      ),
-                      const Expanded(child: SizedBox()),
-                      Text(
-                        "Swipe to top-up",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  option['name'],
+                                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                        color: isSelected ? Colors.white : null,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  "Duración: ${option['duration']}",
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                        color: isSelected ? Colors.white70 : Colors.grey[600],
+                                      ),
+                                ),
+                              ],
                             ),
+                          ),
+                          Text(
+                            "${option['amount'].toString()} Gs",
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: isSelected ? Colors.white : null,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                          ),
+                        ],
                       ),
-                      const Expanded(child: SizedBox()),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
             ),
-          )
-        ],
+
+            // Método de pago
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppTheme.isLightTheme == false
+                    ? const Color(0xff211F32)
+                    : Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 10,
+                    offset: const Offset(0, -2),
+                  )
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Selecciona método de pago",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.isLightTheme == false ? Colors.white : Colors.black,
+                        ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: paymentMethods.map((method) {
+                      final isSelected = selectedPaymentMethod == method;
+                      IconData iconData;
+                      switch (method) {
+                        case 'QR':
+                          iconData = Icons.qr_code;
+                          break;
+                        case 'Efectivo':
+                          iconData = Icons.money;
+                          break;
+                        case 'Tarjeta':
+                          iconData = Icons.credit_card;
+                          break;
+                        default:
+                          iconData = Icons.payment;
+                      }
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedPaymentMethod = method;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? HexColor(AppTheme.primaryColorString!)
+                                : (AppTheme.isLightTheme == false ? const Color(0xff323045) : Colors.grey[200]),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: isSelected ? HexColor(AppTheme.primaryColorString!) : Colors.transparent,
+                              width: 2,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(iconData, size: 32, color: isSelected ? Colors.white : Colors.grey[600]),
+                              const SizedBox(height: 6),
+                              Text(
+                                method,
+                                style: TextStyle(
+                                  color: isSelected ? Colors.white : Colors.grey[600],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Botón confirmar
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: HexColor(AppTheme.primaryColorString!),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () {
+                        final selectedOption = parkingOptions[selectedParkingIndex];
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: const Text("Confirmar Pago"),
+                            content: Text(
+                                "Estacionamiento: ${selectedOption['name']}\n"
+                                "Duración: ${selectedOption['duration']}\n"
+                                "Monto: ${selectedOption['amount']} Gs\n"
+                                "Método de pago: $selectedPaymentMethod"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("Cancelar"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  // Aquí puedes agregar la lógica para procesar el pago
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Pago realizado con éxito')),
+                                  );
+                                },
+                                child: const Text("Confirmar"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Confirmar pago",
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,6 @@
+import 'package:finpay/config/images.dart';
+
+
 class DefaultImages {
   static const String homr = 'assets/images/home.svg';
   static const String card = 'assets/images/card.svg';
@@ -7,7 +10,6 @@ class DefaultImages {
   static const String creditcard = 'assets/images/creditcard.svg';
   static const String debitcard = 'assets/images/debitcard.svg';
   static const String mastercard = 'assets/images/mastercard.svg';
-  static const String ranking = 'assets/images/ranking.svg';
   static const String scan = 'assets/images/Scan.svg';
   static const String sucess = 'assets/images/sucess.svg';
   static const String topup = 'assets/images/Topup.svg';
@@ -93,4 +95,6 @@ class DefaultImages {
   static const String darkPhoto = 'assets/images/darkPhoto.svg';
   static const String darkGallery = 'assets/images/darkGallery.svg';
   static const String appLogo = 'assets/images/logo.png';
+  static const String parking = 'assets/images/parking.png';
+  static const String ranking = 'assets/images/ranking.png';
 }

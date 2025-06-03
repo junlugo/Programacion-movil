@@ -12,8 +12,8 @@ import 'package:finpay/view/home/widget/circle_card.dart';
 import 'package:finpay/view/home/widget/custom_card.dart';
 import 'package:finpay/view/home/widget/transaction_list.dart';
 import 'package:finpay/view/reservas/reservas_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
@@ -36,60 +36,70 @@ class HomeView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Good morning",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).textTheme.bodySmall!.color,
-                          ),
-                    ),
-                    Text(
-                      "Good morning",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24,
-                          ),
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Good morning",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color:
+                                  Theme.of(context).textTheme.bodySmall!.color,
+                            ),
+                      ),
+                      Text(
+                        "Good morning",
+                        style:
+                            Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                ),
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       height: 28,
-                      width: 69,
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
                       decoration: BoxDecoration(
                         color: const Color(0xffF6A609).withOpacity(0.10),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
+                          Image.asset(
                             DefaultImages.ranking,
+                            height: 16,
+                            width: 16,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.error),
                           ),
+                          const SizedBox(width: 4),
                           Text(
                             "Gold",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: const Color(0xffF6A609),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                      color: const Color(0xffF6A609),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(width: 8),
                     SizedBox(
-                      height: 50,
-                      width: 50,
+                      height: 40,
+                      width: 40,
                       child: Image.asset(
                         DefaultImages.avatar,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.error),
                       ),
                     )
                   ],
@@ -102,11 +112,9 @@ class HomeView extends StatelessWidget {
               physics: const ClampingScrollPhysics(),
               padding: EdgeInsets.zero,
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -153,14 +161,13 @@ class HomeView extends StatelessWidget {
                           ),
                           Text(
                             "Add Currency",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: HexColor(AppTheme.primaryColorString!),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                      color: HexColor(
+                                          AppTheme.primaryColorString!),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                         ],
                       ),
@@ -169,7 +176,7 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SizedBox(
                     height: 180,
                     width: Get.width,
@@ -178,6 +185,11 @@ class HomeView extends StatelessWidget {
                         return SvgPicture.asset(
                           DefaultImages.debitcard,
                           fit: BoxFit.fill,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            color: Colors.grey[300],
+                            child: const Center(child: Icon(Icons.image)),
+                          ),
                         );
                       },
                       itemCount: 3,
@@ -194,12 +206,8 @@ class HomeView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(
-                      focusColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      splashColor: Colors.transparent,
                       onTap: () {
-                        Get.to(const TopUpSCreen(),
+                        Get.to(() => const TopUpSCreen(),
                             transition: Transition.downToUp,
                             duration: const Duration(milliseconds: 500));
                       },
@@ -209,10 +217,6 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      focusColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      splashColor: Colors.transparent,
                       onTap: () {},
                       child: circleCard(
                         image: DefaultImages.withdraw,
@@ -220,17 +224,11 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      focusColor: const Color.fromARGB(0, 196, 52, 52),
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      splashColor: Colors.transparent,
                       onTap: () {
                         Get.to(
                           () => ReservaScreen(),
                           binding: BindingsBuilder(() {
-                            Get.delete<
-                                ReservaController>(); // 🔥 elimina instancia previa
-
+                            Get.delete<ReservaController>();
                             Get.create(() => ReservaController());
                           }),
                           transition: Transition.downToUp,
@@ -251,7 +249,7 @@ class HomeView extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppTheme.isLightTheme == false
-                          ? const Color.fromARGB(255, 35, 247, 52)//Color(0xff211F32)
+                          ? const Color.fromARGB(255, 35, 247, 52)
                           : const Color(0xffFFFFFF),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
@@ -289,17 +287,19 @@ class HomeView extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 10),
                                 child: ListTile(
-                                  leading: const Icon(Icons.payments_outlined),
+                                  leading:
+                                      const Icon(Icons.payments_outlined),
                                   title: Text(
                                       "Reserva: ${pago.codigoReservaAsociada}"),
                                   subtitle: Text(
                                       "Fecha: ${UtilesApp.formatearFechaDdMMAaaa(pago.fechaPago)}"),
                                   trailing: Text(
                                     "- ${UtilesApp.formatearGuaranies(pago.montoPagado)}",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               );
