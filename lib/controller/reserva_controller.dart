@@ -14,6 +14,9 @@ class Reservahistorial {
   final int monto;
   final MotivoVisita motivo;
 
+  bool pagado;
+  DateTime? fechaPago;
+
   Reservahistorial({
     required this.auto,
     required this.piso,
@@ -22,6 +25,8 @@ class Reservahistorial {
     required this.salida,
     required this.monto,
     required this.motivo,
+    this.pagado = false,
+    this.fechaPago,
   });
 }
 
@@ -68,7 +73,6 @@ class ReservaDB {
 class ReservaController extends GetxController {
   final db = LocalDBService();
 
-  // Observables
   RxList<Piso> pisos = <Piso>[].obs;
   Rx<Piso?> pisoSeleccionado = Rx<Piso?>(null);
   RxList<Lugar> lugaresDisponibles = <Lugar>[].obs;
@@ -81,6 +85,7 @@ class ReservaController extends GetxController {
   final historialReservas = <Reservahistorial>[].obs;
   RxList<MotivoVisita> motivos = <MotivoVisita>[].obs;
   Rx<MotivoVisita?> motivoSeleccionado = Rx<MotivoVisita?>(null);
+  RxList<ReservaDB> reservasPendientes = <ReservaDB>[].obs;
 
   String codigoClienteActual = 'cliente_1'; // Simulado por ahora
 
@@ -91,6 +96,37 @@ class ReservaController extends GetxController {
     cargarAutosDelCliente();
     cargarPisosYLugares();
     cargarMotivos();
+    cargarReservasGuardadas();
+  }
+
+  Future<void> cargarReservasGuardadas() async {
+    try {
+      final rawReservas = await db.getAll("reservas.json");
+      final reservas = rawReservas.map((e) => ReservaDB.fromJson(e)).toList();
+
+      // Evitar duplicados al agregar en reservasPendientes
+      final reservasUnicas = <ReservaDB>[];
+      for (var r in reservas) {
+        final existe = reservasUnicas.any((ru) =>
+            ru.chapaAuto == r.chapaAuto &&
+            ru.horarioInicio.isAtSameMomentAs(r.horarioInicio) &&
+            ru.horarioSalida.isAtSameMomentAs(r.horarioSalida));
+        if (!existe) reservasUnicas.add(r);
+      }
+      reservasPendientes.assignAll(reservasUnicas);
+    } catch (e) {
+      print("Error cargando reservas guardadas: $e");
+    }
+  }
+
+  void pagarReserva(Reservahistorial reserva) {
+    reserva.pagado = true;
+    reserva.fechaPago = DateTime.now();
+  }
+
+  void cancelarReserva(Reservahistorial reserva) {
+    reserva.lugar.estado = "DISPONIBLE";
+    historialReservas.remove(reserva);
   }
 
   void resetearCampos() {
@@ -181,7 +217,15 @@ class ReservaController extends GetxController {
       motivo: motivoSeleccionado.value!,
     );
 
-    historialReservas.add(reserva);
+    // Evitar agregar reserva duplicada en historialReservas
+    bool yaExisteEnHistorial = historialReservas.any((r) =>
+        r.auto.chapa == reserva.auto.chapa &&
+        r.lugar.codigoLugar == reserva.lugar.codigoLugar &&
+        r.inicio.isAtSameMomentAs(reserva.inicio));
+
+    if (!yaExisteEnHistorial) {
+      historialReservas.add(reserva);
+    }
 
     final nuevaReservaDB = ReservaDB(
       codigoReserva: "RES-${DateTime.now().millisecondsSinceEpoch}",
@@ -193,10 +237,22 @@ class ReservaController extends GetxController {
     );
 
     try {
-      final reservas = await db.getAll("reservas.json");
-      reservas.add(nuevaReservaDB.toJson());
-      await db.saveAll("reservas.json", reservas);
+      final reservasGuardadas = await db.getAll("reservas.json");
 
+      final reservasFiltradas = reservasGuardadas.where((r) {
+        final reservaMap = Map<String, dynamic>.from(r);
+        return !(reservaMap['chapaAuto'] == nuevaReservaDB.chapaAuto &&
+            DateTime.parse(reservaMap['horarioInicio'])
+                .isAtSameMomentAs(nuevaReservaDB.horarioInicio) &&
+            DateTime.parse(reservaMap['horarioSalida'])
+                .isAtSameMomentAs(nuevaReservaDB.horarioSalida));
+      }).toList();
+
+      reservasFiltradas.add(nuevaReservaDB.toJson());
+
+      await db.saveAll("reservas.json", reservasFiltradas);
+
+      // Actualiza estado lugar
       final lugares = await db.getAll("lugares.json");
       final index = lugares.indexWhere(
         (l) => l['codigoLugar'] == lugarSeleccionado.value!.codigoLugar,
@@ -205,6 +261,10 @@ class ReservaController extends GetxController {
         lugares[index]['estado'] = "RESERVADO";
         await db.saveAll("lugares.json", lugares);
       }
+
+      // Actualiza observable para UI
+      reservasPendientes.assignAll(
+          reservasFiltradas.map((e) => ReservaDB.fromJson(e)).toList());
 
       return true;
     } catch (e) {

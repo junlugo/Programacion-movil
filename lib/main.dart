@@ -5,29 +5,29 @@ import 'package:finpay/view/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:finpay/controller/reserva_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Registro del controlador UNA SOLA VEZ antes de runApp
+  Get.put(ReservaController(), permanent: true);
+
+  // Configuración UI del sistema
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor:
-            Colors.transparent //or set color with: Color(0xFF0000FF)
-        ),
-  );
-  Get.put(ReservaController());
-
-
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]).then(
-    (_) => runApp(
-      const MyApp(),
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
     ),
   );
+
+  // Bloquear orientación
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

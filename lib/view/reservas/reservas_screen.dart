@@ -5,7 +5,7 @@ import 'package:finpay/model/sitema_reservas.dart';
 import 'package:finpay/utils/utiles.dart';
 
 class ReservaScreen extends StatelessWidget {
-  final controller = Get.put(ReservaController());
+  final controller = Get.find<ReservaController>();
 
   ReservaScreen({super.key});
 

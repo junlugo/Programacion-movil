@@ -14,6 +14,9 @@ class HomeController extends GetxController {
   RxBool isMonth = false.obs;
   RxBool isYear = false.obs;
   RxBool isAdd = false.obs;
+  var pagosDelMes = 0.obs;
+  var pagosPendientes = 0.obs;
+  var cantidadAutos = 5.obs;
   RxList<Pago> pagosPrevios = <Pago>[].obs;
 
   customInit() async {
@@ -30,6 +33,9 @@ class HomeController extends GetxController {
         "- \$120,90",
         "09:39 AM",
       ),
+
+
+      
       TransactionModel(
         HexColor(AppTheme.primaryColorString!).withOpacity(0.10),
         DefaultImages.transaction3,

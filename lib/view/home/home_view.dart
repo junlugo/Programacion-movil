@@ -23,6 +23,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final reservaController = Get.find<ReservaController>();
+
     return Container(
       color: AppTheme.isLightTheme == false
           ? const Color(0xff15141F)
@@ -201,13 +203,27 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+
+                // NUEVA SECCIÓN DE ESTADÍSTICAS
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildStatCard("Pagos del Mes", homeController.pagosDelMes),
+                      _buildStatCard("Pagos Pendientes", homeController.pagosPendientes),
+                      _buildStatCard("Cantidad de Autos", homeController.cantidadAutos),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(() => const TopUpSCreen(),
+                        Get.to(() => TopUpScreen(),
                             transition: Transition.downToUp,
                             duration: const Duration(milliseconds: 500));
                       },
@@ -314,6 +330,44 @@ class HomeView extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String title, RxInt value) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppTheme.isLightTheme ? Colors.white : const Color(0xff211F32),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Obx(() => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  value.value.toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ],
+            )),
       ),
     );
   }
