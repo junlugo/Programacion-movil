@@ -3,7 +3,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:finpay/config/images.dart';
 import 'package:finpay/config/textstyle.dart';
-import 'package:finpay/controller/home_controller.dart';
 import 'package:finpay/controller/reserva_controller.dart';
 import 'package:finpay/utils/utiles.dart';
 import 'package:finpay/view/home/top_up_screen.dart';
@@ -17,13 +16,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
-  final HomeController homeController;
-
-  const HomeView({Key? key, required this.homeController}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final reservaController = Get.find<ReservaController>();
+
+    // RxInt para las estadísticas
+    final pagosDelMes = RxInt(0);
+    final pagosPendientes = RxInt(0);
+    final cantidadAutos = RxInt(0);
+
+    void actualizarEstadisticas() {
+      final now = DateTime.now();
+      pagosDelMes.value = reservaController.pagosPrevios
+          .where((p) =>
+              p.fechaPago != null &&
+              p.fechaPago!.year == now.year &&
+              p.fechaPago!.month == now.month)
+          .length;
+      pagosPendientes.value = reservaController.pagosPrevios
+          .where((p) => p.fechaPago == null)
+          .length;
+      cantidadAutos.value = reservaController.cantidadAutos.value;
+    }
+
+    actualizarEstadisticas();
+
+    reservaController.pagosPrevios.listen((_) => actualizarEstadisticas());
+    reservaController.cantidadAutos.listen((_) => actualizarEstadisticas());
 
     return Container(
       color: AppTheme.isLightTheme == false
@@ -43,20 +64,18 @@ class HomeView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Good morning",
+                        "Paseo la Galeria",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w400,
-                              color:
-                                  Theme.of(context).textTheme.bodySmall!.color,
+                              color: Theme.of(context).textTheme.bodySmall!.color,
                             ),
                       ),
                       Text(
-                        "Good morning",
-                        style:
-                            Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                ),
+                        "Buenos días",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 24,
+                            ),
                       ),
                     ],
                   ),
@@ -82,13 +101,12 @@ class HomeView extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            "Gold",
-                            style:
-                                Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                      color: const Color(0xffF6A609),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                            "Oro",
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  color: const Color(0xffF6A609),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                         ],
                       ),
@@ -163,13 +181,11 @@ class HomeView extends StatelessWidget {
                           ),
                           Text(
                             "Add Currency",
-                            style:
-                                Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                      color: HexColor(
-                                          AppTheme.primaryColorString!),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  color: HexColor(AppTheme.primaryColorString!),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                         ],
                       ),
@@ -204,15 +220,15 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
 
-                // NUEVA SECCIÓN DE ESTADÍSTICAS
+                // SECCIÓN DE ESTADÍSTICAS
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildStatCard("Pagos del Mes", homeController.pagosDelMes),
-                      _buildStatCard("Pagos Pendientes", homeController.pagosPendientes),
-                      _buildStatCard("Cantidad de Autos", homeController.cantidadAutos),
+                      _buildStatCard("Pagos del Mes", pagosDelMes),
+                      _buildStatCard("Pagos Pendientes", pagosPendientes),
+                      _buildStatCard("Cantidad de Autos", cantidadAutos),
                     ],
                   ),
                 ),
@@ -259,19 +275,72 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
+
+                // SECCIÓN PAGOS PENDIENTES
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Obx(() {
+                    final pagosPendientesList = reservaController.pagosPrevios
+                        .where((p) => p.fechaPago == null)
+                        .toList();
+                    if (pagosPendientesList.isEmpty) {
+                      return const Center(child: Text("No hay pagos pendientes"));
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Pagos Pendientes",
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        ...pagosPendientesList.map((pago) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: ListTile(
+                              tileColor: Colors.red.withOpacity(0.05),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              leading: const Icon(Icons.warning_amber_outlined,
+                                  color: Colors.orange),
+                              title: Text("Reserva: ${pago.codigoReservaAsociada}"),
+                              subtitle: const Text("Estado: Pendiente de pago"),
+                              trailing: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 6),
+                                ),
+                                onPressed: () {
+                                  
+                                  reservaController.pagarReserva(pago);
+
+                                },
+                                child: const Text("Pagar"),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ],
+                    );
+                  }),
+                ),
+
+                // SECCIÓN PAGOS PREVIOS (YA PAGADOS)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppTheme.isLightTheme == false
-                          ? const Color.fromARGB(255, 35, 247, 52)
-                          : const Color(0xffFFFFFF),
+                          ? const Color(0xffFFFFFF)
+                          : const Color(0xffF9F9F9),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xff000000).withOpacity(0.10),
-                          blurRadius: 2,
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -279,16 +348,13 @@ class HomeView extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 16, right: 16, top: 20),
+                              left: 16, right: 16, top: 20, bottom: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 "Pagos previos",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w800,
                                     ),
@@ -296,21 +362,25 @@ class HomeView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20),
                         Obx(() {
+                          final pagos = reservaController.pagosPrevios
+                              .where((p) => p.fechaPago != null)
+                              .toList();
+                          if (pagos.isEmpty) {
+                            return const Center(child: Text("No hay pagos previos"));
+                          }
                           return Column(
-                            children: homeController.pagosPrevios.map((pago) {
+                            children: pagos.map((pago) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 10),
                                 child: ListTile(
-                                  leading:
-                                      const Icon(Icons.payments_outlined),
-                                  title: Text(
-                                      "Reserva: ${pago.codigoReservaAsociada}"),
+                                  leading: const Icon(Icons.payments_outlined),
+                                  title: Text("Reserva: ${pago.codigoReservaAsociada}"),
                                   subtitle: Text(
-                                      "Fecha: ${UtilesApp.formatearFechaDdMMAaaa(pago.fechaPago)}"),
+                                    "Fecha: ${UtilesApp.formatearFechaDdMMAaaa(pago.fechaPago!)}",
+                                  ),
                                   trailing: Text(
-                                    "- ${UtilesApp.formatearGuaranies(pago.montoPagado)}",
+                                    "- ${UtilesApp.formatearGuaranies(pago.monto)}",
                                     style: const TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
@@ -325,7 +395,7 @@ class HomeView extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           )

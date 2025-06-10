@@ -280,22 +280,7 @@ class ReservaScreen extends StatelessWidget {
 
                       if (confirmada) {
                         Get.snackbar("Reserva", "Reserva realizada con éxito.", snackPosition: SnackPosition.BOTTOM);
-
                         await Future.delayed(const Duration(milliseconds: 2000));
-                        final minutos = controller.horarioSalida.value!.difference(controller.horarioInicio.value!).inMinutes;
-                        final horas = minutos / 60;
-                        final monto = (horas * 10000).round();
-
-                        controller.historialReservas.add(Reservahistorial(
-                          auto: controller.autoSeleccionado.value!,
-                          piso: controller.pisoSeleccionado.value!,
-                          lugar: controller.lugarSeleccionado.value!,
-                          inicio: controller.horarioInicio.value!,
-                          salida: controller.horarioSalida.value!,
-                          monto: monto,
-                          motivo: controller.motivoSeleccionado.value!,
-                        ));
-
                         Get.back();
                       } else {
                         Get.snackbar(

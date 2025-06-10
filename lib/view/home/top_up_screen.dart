@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart'; // Para formatear fechas
 import '../../config/images.dart';
 import '../../config/textstyle.dart';
 import '../../controller/reserva_controller.dart';
@@ -10,6 +11,82 @@ class TopUpScreen extends StatelessWidget {
 
   final ReservaController controller = Get.find<ReservaController>();
 
+  Future<bool?> mostrarConfirmacion(BuildContext context, String mensaje) {
+    return showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Confirmar"),
+        content: Text(mensaje),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text("No")),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text("Sí")),
+        ],
+      ),
+    );
+  }
+
+  void mostrarPagoConTarjeta(BuildContext context, Reservahistorial reserva) async {
+    final confirm = await mostrarConfirmacion(context, "¿Deseas confirmar el pago de esta reserva?");
+    if (confirm != true) return;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text("Método de Pago", style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              const ListTile(
+                leading: Icon(Icons.credit_card, color: Colors.blue),
+                title: Text("Tarjeta de Crédito"),
+                subtitle: Text("Único método disponible"),
+              ),
+              const SizedBox(height: 10),
+              Text("Monto a pagar: ₲${reserva.monto}", style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    controller.pagarReserva(reserva);
+                    Navigator.pop(context);
+                    Get.back(); // Cierra el modal y la pantalla de confirmación
+                    Get.snackbar("Pago exitoso", "La reserva fue pagada correctamente",
+                        snackPosition: SnackPosition.BOTTOM);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: const Text("Confirmar Pago", style: TextStyle(fontSize: 16)),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +95,8 @@ class TopUpScreen extends StatelessWidget {
           : HexColor(AppTheme.primaryColorString!),
       body: SafeArea(
         child: Obx(() {
-          final historial = controller.historialReservas;
+          // Filtramos solo reservas pendientes (no pagadas)
+          final pendientes = controller.historialReservas.where((r) => !r.pagado).toList();
 
           return Column(
             children: [
@@ -46,7 +124,7 @@ class TopUpScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Expanded(
-                child: historial.isEmpty
+                child: pendientes.isEmpty
                     ? const Center(
                         child: Text(
                           "No hay reservas pendientes",
@@ -54,10 +132,10 @@ class TopUpScreen extends StatelessWidget {
                         ),
                       )
                     : ListView.builder(
-                        itemCount: historial.length,
+                        itemCount: pendientes.length,
                         padding: const EdgeInsets.all(16),
                         itemBuilder: (context, index) {
-                          final reserva = historial[index];
+                          final reserva = pendientes[index];
                           return Card(
                             color: AppTheme.isLightTheme == false
                                 ? const Color(0xff323045)
@@ -83,7 +161,7 @@ class TopUpScreen extends StatelessWidget {
                                   Text("Motivo: ${reserva.motivo.descripcion}"),
                                   Text("Estado: ${reserva.pagado ? "Pagado" : "Pendiente"}"),
                                   if (reserva.pagado && reserva.fechaPago != null)
-                                    Text("Pagado el: ${reserva.fechaPago}"),
+                                    Text("Pagado el: ${DateFormat('dd/MM/yyyy HH:mm').format(reserva.fechaPago!)}"),
                                   const SizedBox(height: 12),
                                   if (!reserva.pagado)
                                     Row(
@@ -91,7 +169,7 @@ class TopUpScreen extends StatelessWidget {
                                         Expanded(
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              controller.pagarReserva(reserva);
+                                              mostrarPagoConTarjeta(context, reserva);
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.green,
@@ -102,8 +180,15 @@ class TopUpScreen extends StatelessWidget {
                                         const SizedBox(width: 12),
                                         Expanded(
                                           child: ElevatedButton(
-                                            onPressed: () {
-                                              controller.cancelarReserva(reserva);
+                                            onPressed: () async {
+                                              final confirm = await mostrarConfirmacion(
+                                                  context, "¿Seguro que deseas cancelar esta reserva?");
+                                              if (confirm == true) {
+                                                controller.cancelarReserva(reserva);
+                                                Get.snackbar("Reserva cancelada",
+                                                    "La reserva fue cancelada correctamente",
+                                                    snackPosition: SnackPosition.BOTTOM);
+                                              }
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red,

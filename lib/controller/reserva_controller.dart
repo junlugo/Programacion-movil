@@ -4,8 +4,10 @@ import 'package:finpay/api/local.db.service.dart';
 import 'package:finpay/model/sitema_reservas.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
+import 'package:collection/collection.dart'; // para usar firstOrNull
 
 class Reservahistorial {
+  final String codigoReservaAsociada;
   final Auto auto;
   final Piso piso;
   final Lugar lugar;
@@ -18,6 +20,7 @@ class Reservahistorial {
   DateTime? fechaPago;
 
   Reservahistorial({
+    required this.codigoReservaAsociada,
     required this.auto,
     required this.piso,
     required this.lugar,
@@ -52,7 +55,7 @@ class ReservaDB {
       codigoReserva: json['codigoReserva'],
       horarioInicio: DateTime.parse(json['horarioInicio']),
       horarioSalida: DateTime.parse(json['horarioSalida']),
-      monto: json['monto'].toDouble(),
+      monto: (json['monto'] is int) ? (json['monto'] as int).toDouble() : json['monto'].toDouble(),
       estadoReserva: json['estadoReserva'],
       chapaAuto: json['chapaAuto'],
     );
@@ -87,7 +90,12 @@ class ReservaController extends GetxController {
   Rx<MotivoVisita?> motivoSeleccionado = Rx<MotivoVisita?>(null);
   RxList<ReservaDB> reservasPendientes = <ReservaDB>[].obs;
 
-  String codigoClienteActual = 'cliente_1'; // Simulado por ahora
+  RxInt pagosDelMes = 0.obs;
+  RxInt pagosPendientes = 0.obs;
+  RxInt cantidadAutos = 0.obs;
+  RxList<Reservahistorial> pagosPrevios = <Reservahistorial>[].obs;
+
+  String codigoClienteActual = 'cliente_1';
 
   @override
   void onInit() {
@@ -104,29 +112,96 @@ class ReservaController extends GetxController {
       final rawReservas = await db.getAll("reservas.json");
       final reservas = rawReservas.map((e) => ReservaDB.fromJson(e)).toList();
 
-      // Evitar duplicados al agregar en reservasPendientes
-      final reservasUnicas = <ReservaDB>[];
+      // Mapear reservas a historial con datos completos
+      // Para simplificar, aquí se asume que puedes obtener Auto, Piso, Lugar y Motivo desde tu base local
+      // Esto debe ajustarse según tu modelo y lógica real de recuperación
+
+      // Ejemplo rápido de conversión sin los objetos completos, se puede mejorar si tienes métodos para recuperar estos datos
+      historialReservas.clear();
       for (var r in reservas) {
-        final existe = reservasUnicas.any((ru) =>
-            ru.chapaAuto == r.chapaAuto &&
-            ru.horarioInicio.isAtSameMomentAs(r.horarioInicio) &&
-            ru.horarioSalida.isAtSameMomentAs(r.horarioSalida));
-        if (!existe) reservasUnicas.add(r);
+        final auto = autosCliente.firstWhereOrNull((a) => a.chapa == r.chapaAuto);
+        final lugar = lugaresDisponibles.firstWhereOrNull((l) => l.codigoLugar == r.codigoReserva); // Aquí ajusta según corresponda
+        // Piso y motivo a recuperar con lógica propia, o pasar null o datos dummy si no disponible
+        if (auto != null && lugar != null) {
+          historialReservas.add(Reservahistorial(
+            codigoReservaAsociada: r.codigoReserva,
+            auto: auto,
+            piso: Piso(codigo: lugar.codigoPiso, descripcion: '', lugares: []), // Dummy piso
+            lugar: lugar,
+            inicio: r.horarioInicio,
+            salida: r.horarioSalida,
+            monto: r.monto.toInt(),
+            motivo: motivos.firstOrNull ?? MotivoVisita(codigo: 0, descripcion: 'Sin motivo'), // Dummy motivo
+            pagado: r.estadoReserva == "PAGADO",
+            fechaPago: r.estadoReserva == "PAGADO" ? DateTime.now() : null,
+          ));
+        }
       }
-      reservasPendientes.assignAll(reservasUnicas);
+
+      reservasPendientes.assignAll(reservas.where((r) => r.estadoReserva == "PENDIENTE").toList());
+
+      calcularEstadisticas();
     } catch (e) {
       print("Error cargando reservas guardadas: $e");
     }
   }
 
-  void pagarReserva(Reservahistorial reserva) {
-    reserva.pagado = true;
-    reserva.fechaPago = DateTime.now();
+  Future<void> pagarReserva(Reservahistorial reserva) async {
+    try {
+      reserva.pagado = true;
+      reserva.fechaPago = DateTime.now();
+
+      final index = reservasPendientes.indexWhere((r) =>
+          r.chapaAuto == reserva.auto.chapa &&
+          r.horarioInicio.isAtSameMomentAs(reserva.inicio));
+      if (index != -1) {
+        reservasPendientes[index] = ReservaDB(
+          codigoReserva: reservasPendientes[index].codigoReserva,
+          horarioInicio: reserva.inicio,
+          horarioSalida: reserva.salida,
+          monto: reserva.monto.toDouble(),
+          estadoReserva: "PAGADO",
+          chapaAuto: reserva.auto.chapa,
+        );
+        await db.saveAll(
+          "reservas.json",
+          reservasPendientes.map((r) => r.toJson()).toList(),
+        );
+      }
+
+      calcularEstadisticas();
+    } catch (e) {
+      print("Error al pagar reserva: $e");
+    }
   }
 
-  void cancelarReserva(Reservahistorial reserva) {
-    reserva.lugar.estado = "DISPONIBLE";
-    historialReservas.remove(reserva);
+  Future<void> cancelarReserva(Reservahistorial reserva) async {
+    try {
+      reserva.lugar.estado = "DISPONIBLE";
+      historialReservas.remove(reserva);
+
+      reservasPendientes.removeWhere((r) =>
+          r.chapaAuto == reserva.auto.chapa &&
+          r.horarioInicio.isAtSameMomentAs(reserva.inicio));
+
+      final reservasActualizadas =
+          reservasPendientes.map((r) => r.toJson()).toList();
+      await db.saveAll("reservas.json", reservasActualizadas);
+
+      final lugares = await db.getAll("lugares.json");
+      final index = lugares.indexWhere(
+          (l) => l['codigoLugar'] == reserva.lugar.codigoLugar);
+      if (index != -1) {
+        lugares[index]['estado'] = "DISPONIBLE";
+        await db.saveAll("lugares.json", lugares);
+      }
+
+      await cargarPisosYLugares();
+
+      calcularEstadisticas();
+    } catch (e) {
+      print("Error al cancelar reserva: $e");
+    }
   }
 
   void resetearCampos() {
@@ -144,7 +219,6 @@ class ReservaController extends GetxController {
       final data = await rootBundle.loadString('assets/data/motivos.json');
       final List<dynamic> jsonResult = json.decode(data);
       motivos.value = jsonResult.map((e) => MotivoVisita.fromJson(e)).toList();
-      print("Motivos cargados: ${motivos.length}");
     } catch (e) {
       print("Error al cargar motivos: $e");
     }
@@ -155,6 +229,8 @@ class ReservaController extends GetxController {
     final autos = rawAutos.map((e) => Auto.fromJson(e)).toList();
     autosCliente.value =
         autos.where((a) => a.clienteId == codigoClienteActual).toList();
+
+    calcularEstadisticas();
   }
 
   Future<void> cargarPisosYLugares() async {
@@ -163,7 +239,6 @@ class ReservaController extends GetxController {
     final rawReservas = await db.getAll("reservas.json");
 
     final reservas = rawReservas.map((e) => ReservaDB.fromJson(e)).toList();
-    final lugaresReservados = reservas.map((r) => r.codigoReserva).toSet();
 
     final todosLugares = rawLugares.map((e) => Lugar.fromJson(e)).toList();
 
@@ -179,7 +254,7 @@ class ReservaController extends GetxController {
     }).toList();
 
     lugaresDisponibles.value = todosLugares.where((l) {
-      return !lugaresReservados.contains(l.codigoLugar);
+      return l.estado != "RESERVADO";
     }).toList();
   }
 
@@ -208,6 +283,7 @@ class ReservaController extends GetxController {
     final montoCalculado = (duracionEnHoras * 10000).round();
 
     final reserva = Reservahistorial(
+      codigoReservaAsociada: "RES-${DateTime.now().millisecondsSinceEpoch}",
       auto: autoSeleccionado.value!,
       piso: pisoSeleccionado.value!,
       lugar: lugarSeleccionado.value!,
@@ -217,18 +293,25 @@ class ReservaController extends GetxController {
       motivo: motivoSeleccionado.value!,
     );
 
-    // Evitar agregar reserva duplicada en historialReservas
-    bool yaExisteEnHistorial = historialReservas.any((r) =>
+    final yaExiste = historialReservas.any((r) =>
         r.auto.chapa == reserva.auto.chapa &&
         r.lugar.codigoLugar == reserva.lugar.codigoLugar &&
         r.inicio.isAtSameMomentAs(reserva.inicio));
 
-    if (!yaExisteEnHistorial) {
+    if (!yaExiste) {
       historialReservas.add(reserva);
+    } else {
+      final index = historialReservas.indexWhere((r) =>
+          r.auto.chapa == reserva.auto.chapa &&
+          r.lugar.codigoLugar == reserva.lugar.codigoLugar &&
+          r.inicio.isAtSameMomentAs(reserva.inicio));
+      if (index != -1) historialReservas[index] = reserva;
     }
 
+    calcularEstadisticas();
+
     final nuevaReservaDB = ReservaDB(
-      codigoReserva: "RES-${DateTime.now().millisecondsSinceEpoch}",
+      codigoReserva: reserva.codigoReservaAsociada,
       horarioInicio: reserva.inicio,
       horarioSalida: reserva.salida,
       monto: reserva.monto.toDouble(),
@@ -238,7 +321,6 @@ class ReservaController extends GetxController {
 
     try {
       final reservasGuardadas = await db.getAll("reservas.json");
-
       final reservasFiltradas = reservasGuardadas.where((r) {
         final reservaMap = Map<String, dynamic>.from(r);
         return !(reservaMap['chapaAuto'] == nuevaReservaDB.chapaAuto &&
@@ -249,23 +331,22 @@ class ReservaController extends GetxController {
       }).toList();
 
       reservasFiltradas.add(nuevaReservaDB.toJson());
-
       await db.saveAll("reservas.json", reservasFiltradas);
 
-      // Actualiza estado lugar
       final lugares = await db.getAll("lugares.json");
       final index = lugares.indexWhere(
-        (l) => l['codigoLugar'] == lugarSeleccionado.value!.codigoLugar,
-      );
+          (l) => l['codigoLugar'] == lugarSeleccionado.value!.codigoLugar);
       if (index != -1) {
         lugares[index]['estado'] = "RESERVADO";
         await db.saveAll("lugares.json", lugares);
       }
 
-      // Actualiza observable para UI
       reservasPendientes.assignAll(
           reservasFiltradas.map((e) => ReservaDB.fromJson(e)).toList());
 
+      await cargarPisosYLugares();
+
+      resetearCampos();
       return true;
     } catch (e) {
       print("Error al guardar reserva: $e");
@@ -273,9 +354,20 @@ class ReservaController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    resetearCampos();
-    super.onClose();
+  void calcularEstadisticas() {
+    cantidadAutos.value = autosCliente.length;
+
+    final ahora = DateTime.now();
+
+    pagosDelMes.value = historialReservas.where((r) =>
+        r.pagado &&
+        r.fechaPago != null &&
+        r.fechaPago!.year == ahora.year &&
+        r.fechaPago!.month == ahora.month).fold<int>(0, (sum, r) => sum + r.monto);
+
+    pagosPendientes.value = historialReservas.where((r) => !r.pagado)
+        .fold<int>(0, (sum, r) => sum + r.monto);
+
+    pagosPrevios.value = historialReservas.where((r) => r.pagado).toList();
   }
 }
