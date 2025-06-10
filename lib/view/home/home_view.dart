@@ -22,30 +22,6 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final reservaController = Get.find<ReservaController>();
 
-    // RxInt para las estadísticas
-    final pagosDelMes = RxInt(0);
-    final pagosPendientes = RxInt(0);
-    final cantidadAutos = RxInt(0);
-
-    void actualizarEstadisticas() {
-      final now = DateTime.now();
-      pagosDelMes.value = reservaController.pagosPrevios
-          .where((p) =>
-              p.fechaPago != null &&
-              p.fechaPago!.year == now.year &&
-              p.fechaPago!.month == now.month)
-          .length;
-      pagosPendientes.value = reservaController.pagosPrevios
-          .where((p) => p.fechaPago == null)
-          .length;
-      cantidadAutos.value = reservaController.cantidadAutos.value;
-    }
-
-    actualizarEstadisticas();
-
-    reservaController.pagosPrevios.listen((_) => actualizarEstadisticas());
-    reservaController.cantidadAutos.listen((_) => actualizarEstadisticas());
-
     return Container(
       color: AppTheme.isLightTheme == false
           ? const Color(0xff15141F)
@@ -226,9 +202,9 @@ class HomeView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildStatCard("Pagos del Mes", pagosDelMes),
-                      _buildStatCard("Pagos Pendientes", pagosPendientes),
-                      _buildStatCard("Cantidad de Autos", cantidadAutos),
+                      _buildStatCard("Pagos del Mes", reservaController.pagosDelMes),
+                      _buildStatCard("Pagos Pendientes", reservaController.pagosPendientes),
+                      _buildStatCard("Cantidad de Autos", reservaController.cantidadAutos),
                     ],
                   ),
                 ),
@@ -313,9 +289,7 @@ class HomeView extends StatelessWidget {
                                       horizontal: 12, vertical: 6),
                                 ),
                                 onPressed: () {
-                                  
                                   reservaController.pagarReserva(pago);
-
                                 },
                                 child: const Text("Pagar"),
                               ),
@@ -327,7 +301,7 @@ class HomeView extends StatelessWidget {
                   }),
                 ),
 
-                // SECCIÓN PAGOS PREVIOS (YA PAGADOS)
+                // SECCIÓN PAGOS PREVIOS
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Container(

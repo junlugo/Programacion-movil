@@ -86,9 +86,14 @@ class ReservaController extends GetxController {
   RxList<Auto> autosCliente = <Auto>[].obs;
   Rx<Auto?> autoSeleccionado = Rx<Auto?>(null);
   final historialReservas = <Reservahistorial>[].obs;
+  // Acá agregás el getter:
+  List<Reservahistorial> get reservasPendientesDePago =>
+      historialReservas.where((r) => !r.pagado).toList();
+
   RxList<MotivoVisita> motivos = <MotivoVisita>[].obs;
   Rx<MotivoVisita?> motivoSeleccionado = Rx<MotivoVisita?>(null);
   RxList<ReservaDB> reservasPendientes = <ReservaDB>[].obs;
+  
 
   RxInt pagosDelMes = 0.obs;
   RxInt pagosPendientes = 0.obs;
