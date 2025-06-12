@@ -202,8 +202,8 @@ class HomeView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildStatCard("Pagos del Mes", reservaController.pagosDelMes),
-                      _buildStatCard("Pagos Pendientes", reservaController.pagosPendientes),
+                      _buildStatCard("Total pagado del Mes", reservaController.pagosDelMes),
+                      _buildStatCard("Total Pendientes de Pago", reservaController.pagosPendientes),
                       _buildStatCard("Cantidad de Autos", reservaController.cantidadAutos),
                     ],
                   ),

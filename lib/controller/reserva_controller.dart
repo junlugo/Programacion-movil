@@ -138,7 +138,7 @@ class ReservaController extends GetxController {
             monto: r.monto.toInt(),
             motivo: motivos.firstOrNull ?? MotivoVisita(codigo: 0, descripcion: 'Sin motivo'), // Dummy motivo
             pagado: r.estadoReserva == "PAGADO",
-            fechaPago: r.estadoReserva == "PAGADO" ? DateTime.now() : null,
+            fechaPago: r.estadoReserva == "PAGADO" ? DateTime.now().toLocal() : null,
           ));
         }
       }
@@ -154,7 +154,7 @@ class ReservaController extends GetxController {
   Future<void> pagarReserva(Reservahistorial reserva) async {
     try {
       reserva.pagado = true;
-      reserva.fechaPago = DateTime.now();
+      reserva.fechaPago = DateTime.now().toLocal();
 
       final index = reservasPendientes.indexWhere((r) =>
           r.chapaAuto == reserva.auto.chapa &&
